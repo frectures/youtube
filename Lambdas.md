@@ -1,16 +1,22 @@
-## Java-Lambdas und Kotlin-Lambdas im Vergleich
+# Java-Lambdas und Kotlin-Lambdas im Vergleich
 
-Praktisch alle Mainstream-Sprachen haben heutzutage Lambda-Ausdrücke (anonyme Funktionen):
-```
-  x => x + y    // JavaScript, C#, Scala
-  x -> x + y    // Java
-{ x -> x + y }  // Kotlin, Groovy
-```
+> Bis Version 8 kam Java ohne Lambda-Ausdrücke aus bzw. musste sich mit anonymen inneren Klassen behelfen.
+> Die alternative JVM-Sprache Kotlin hatte dagegen schon immer Lambda-Ausdrücke integriert.
+> Wie unterscheiden sich Java-Lambdas und Kotlin-Lambdas im Detail?
+
+Praktisch alle Mainstream-Sprachen haben heutzutage Lambda-Ausdrücke:
+
+| Programmiersprache    | Lambda-Syntax    |
+| --------------------- | :--------------: |
+| JavaScript, C#, Scala |   `x => x + y`   |
+| Java                  |   `x -> x + y`   |
+| Kotlin, Groovy        | `{ x -> x + y }` |
+
 Syntaktisch fahren Java-Lambdas und Kotlin-Lambdas ähnliche Schienen,
 die Semantik unterscheidet sich aber in zwei interessanten Detail-Fragen:
 
 1. Dürfen umgebende lokale Variablen (das `y` in `x -> x + y`) verändert werden?
-2. Wohin springt eine `return`-Anweisungen aus einem Lambda zurück?
+2. Wohin springt eine `return`-Anweisung aus einem Lambda zurück?
 
 Dieser Artikel untersucht beide Fragen und ist auch für komplette Neueinsteiger in Kotlin geeignet.
 
@@ -27,8 +33,9 @@ die im Folgenden als Vergleichsgrundlage für Java-Lambdas und Kotlin-Lambdas di
 function makeCounter() {
     let next = 1;
     return () => next++;
-}         /////////////
-       ///////
+}
+
+
 const counter = makeCounter();
 
 console.log(counter()); // 1
@@ -266,7 +273,7 @@ fun main() {
     })
 }
 
-// Listing 6a: Rücksprung aus Java-Lambda
+// Listing 6a: Rücksprung aus Kotlin-Lambda
 ```
 
 ```java
@@ -281,13 +288,13 @@ public static void main(String[] args) {
     });
 }
 
-// Listing 6b: Rücksprung aus Kotlin-Lambda
+// Listing 6b: Rücksprung aus Java-Lambda
 ```
 
 Die Listings 6a und 6b zeigen scheinbar dasselbe Programm in Kotlin und Java.
 Zwei verschachtelte `forEach`-Aufrufe suchen zwei Ziffern, deren Produkt 42 ist.
 Bei einem passenden Pärchen schreibt das Programm die Rechnung auf die Konsole und springt zurück.
-Die Programme schreiben folgendes auf die Konsole:
+Die Programme schreiben Folgendes auf die Konsole:
 
 ```
 Kotlin: 6 * 7 == 42
@@ -353,18 +360,8 @@ repeat(10) { a -> ... }
 Mit diesem Syntax-Trick sehen Funktionsaufrufe wie neue Kontrollstrukturen aus:
 bei `forEach` und `repeat` wirken die Lambda-Argumente dank geschweifter Klammern syntaktisch wie Schleifenrümpfe.
 
-Zwei weitere Beispiele sind die Funktionen `assert` und `synchronized` aus Kotlins Standardbibliothek,
-siehe Listing 9. Im Gegensatz zu Java sind `assert` und `synchronized` nämlich *keine* Schlüsselwörter in Kotlin!
-
-```kt
-synchronized(einLock) {
-    assert(eineBedingung) {
-        berechneTeureFehlernachricht()
-    }
-}
-
-// Listing 9: synchronized und assert
-```
+Zwei weitere Beispiele sind die Funktionen `assert` und `synchronized` aus Kotlins Standardbibliothek.
+Im Gegensatz zu Java sind `assert` und `synchronized` nämlich *keine* Schlüsselwörter in Kotlin!
 
 ## Fazit
 
@@ -389,5 +386,5 @@ Letzten Endes konnten sich ihre Ideen aber nicht gegen simplere Lambda-Designs d
 ## Autor
 
 Fredrik arbeitet mit Schwerpunkt Nachwuchsgewinnung und -förderung bei der WPS.
-Seit 2015 entwickelt er zwei Lernumgebungen ("Karel" und "Skorbut") mit Kotlin.
+Seit 2015 entwickelt er zwei Lernumgebungen (Karel und Skorbut) mit Kotlin.
 Seit 2018 schult er Java-Programmierer in Kotlin.
